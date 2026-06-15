@@ -8,6 +8,6 @@ Dalam project ini kami membuat aplikasi gacha atau judi online bertujuan untuk m
 
 **Achmad Dany Gunawan_24083010075** - menggagas ide pembuatan judi online, menggagas dan merancang sistem game judi slot machine dan database judi online, upload game ke VM Google Cloud, membantu perancangan website dari awal hingga akhir.  
 
-**Indra Maulana R.F.Y._24083010105** - 24083010 menggagas ide pembuatan judi online, menggagas dan merancang game gacha kartu dan sistem game multiplayer, upload game ke VM azure, membantu perancangan website dari awal hingga akhir.  
+**Indra Maulana R.F.Y._24083010105** - menggagas ide pembuatan judi online, menggagas dan merancang game gacha kartu dan sistem game multiplayer, upload game ke VM azure, membantu perancangan website dari awal hingga akhir.  
 
 Irma liza_24083010118 - mengerjakan laporan executive summary
