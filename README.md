@@ -10,7 +10,7 @@ Dalam project ini kami membuat aplikasi gacha atau judi online bertujuan untuk m
 
 #**Indra Maulana R.F.Y._24083010105** - menggagas ide pembuatan judi online, menggagas dan merancang game gacha kartu dan sistem game multiplayer, serta membuat loading page, upload game ke VM azure, membantu perancangan website dari awal hingga akhir.  
 
-#**Irma liza_24083010118** - mengerjakan laporan executive summary
+#**Irma liza_24083010118** - Ikut menggagas ide pembuatan judi online,mengerjakan laporan executive summary
 
 
 # BASIKAL GAMING
