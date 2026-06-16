@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shop BASIKAL GAMING untuk menukar koin, klaim daily reward, dan melihat saldo gems.">
+  <meta property="og:title" content="BASIKAL GAMING Shop">
+  <meta property="og:description" content="Tukar koin menjadi gems dan klaim daily reward di Shop BASIKAL GAMING.">
+  <title>Lucky Slot — Shop</title>
+  <link rel="stylesheet" href="shop.css" />
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <span class="logo-lucky">LUCKY</span><span class="logo-slot">SLOT</span>
+  </div>
+  <div class="header-btns">
+    <button class="profile-btn active" title="Shop (halaman ini)" aria-label="Shop">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+    </button>
+    <div class="profile-wrap">
+      <button class="profile-btn" id="profileBtn" aria-label="Profile menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </button>
+      <div class="profile-dropdown" id="profileDropdown">
+        <div class="dd-user">
+          <span id="dd-username">User</span>
+          <small>Aktif sekarang</small>
+        </div>
+        <div class="dd-item logout" onclick="logout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Logout
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- BALANCE BAR -->
+<div class="balance-bar">
+  <div class="balance-pill">
+    <div class="bal-icon">🪙</div>
+    <div class="bal-info">
+      <div class="bal-label">Koin Kamu</div>
+      <div class="bal-val" id="display-coins">0</div>
+    </div>
+  </div>
+  <div class="balance-pill">
+    <div class="bal-icon">💎</div>
+    <div class="bal-info">
+      <div class="bal-label">Gems Kamu</div>
+      <div class="bal-val" id="display-gems">0</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <button class="back-btn" onclick="window.location.href='index.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    KEMBALI KE LOBBY
+  </button>
+
+  <h1 class="page-title">TUKAR GEMS</h1>
+  <p class="page-sub">Pilih paket terbaik untuk kamu</p>
+
+  <!-- DAILY BONUS -->
+  <div class="daily-banner" id="daily-banner">
+    <div class="daily-icon">🎁</div>
+    <div class="daily-info">
+      <div class="daily-title">DAILY FREE GEMS</div>
+      <div class="daily-sub">Klaim 50 Gems gratis setiap hari!</div>
+    </div>
+    <button class="daily-btn" id="daily-btn" onclick="claimDaily()">KLAIM</button>
+  </div>
+
+  <!-- FLASH SALE -->
+  <div class="flash-banner">
+    <div class="flash-badge">⚡ FLASH SALE</div>
+    <div class="flash-info">Paket 5,000 koin — bonus +200 gems ekstra!</div>
+    <div class="flash-timer" id="flash-timer">02:47:33</div>
+  </div>
+
+  <!-- PACKAGES -->
+  <div class="section-title">PAKET PENUKARAN</div>
+  <div class="packages-grid">
+
+    <div class="pkg-card" data-cost="50" data-gems="5" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-new">MINI</span>
+      <div class="pkg-cost">🪙 50 koin</div>
+      <div class="pkg-gems">💎 5</div>
+      <div class="pkg-rate">Kurs 1:0.10</div>
+    </div>
+
+    <div class="pkg-card" data-cost="100" data-gems="10" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-new">PEMULA</span>
+      <div class="pkg-cost">🪙 100 koin</div>
+      <div class="pkg-gems">💎 10</div>
+      <div class="pkg-rate">Kurs 1:0.10</div>
+    </div>
+
+    <div class="pkg-card" data-cost="300" data-gems="33" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-new">STARTER</span>
+      <div class="pkg-cost">🪙 300 koin</div>
+      <div class="pkg-gems">💎 33</div>
+      <div class="pkg-rate">Kurs 1:0.11</div>
+    </div>
+
+    <div class="pkg-card pkg-popular" data-cost="500" data-gems="65" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-popular">+BONUS</span>
+      <div class="pkg-cost">🪙 500 koin</div>
+      <div class="pkg-gems">💎 65</div>
+      <div class="pkg-bonus">+5 bonus gems!</div>
+      <div class="pkg-rate">Kurs 1:0.13</div>
+    </div>
+
+    <div class="pkg-card pkg-popular" data-cost="1000" data-gems="140" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-popular">POPULER</span>
+      <div class="pkg-cost">🪙 1,000 koin</div>
+      <div class="pkg-gems">💎 140</div>
+      <div class="pkg-bonus">+10 bonus gems!</div>
+      <div class="pkg-rate">Kurs 1:0.14</div>
+    </div>
+
+    <div class="pkg-card pkg-popular" data-cost="2000" data-gems="300" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-hot">🔥 HOT</span>
+      <div class="pkg-cost">🪙 2,000 koin</div>
+      <div class="pkg-gems">💎 300</div>
+      <div class="pkg-bonus">+20 bonus gems!</div>
+      <div class="pkg-rate">Kurs 1:0.15</div>
+    </div>
+
+    <div class="pkg-card pkg-best" data-cost="5000" data-gems="800" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-best">⭐ TERBAIK</span>
+      <div class="pkg-cost">🪙 5,000 koin</div>
+      <div class="pkg-gems">💎 800</div>
+      <div class="pkg-bonus">+50 bonus gems!</div>
+      <div class="pkg-rate">Kurs 1:0.16</div>
+    </div>
+
+    <div class="pkg-card pkg-best" data-cost="10000" data-gems="1800" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-vip">👑 VIP</span>
+      <div class="pkg-cost">🪙 10,000 koin</div>
+      <div class="pkg-gems">💎 1,800</div>
+      <div class="pkg-bonus">+200 bonus gems!</div>
+      <div class="pkg-rate">Kurs 1:0.18</div>
+    </div>
+
+    <div class="pkg-card pkg-best" data-cost="25000" data-gems="5000" onclick="selectPackage(this)">
+      <span class="pkg-badge badge-vip">👑 ELITE</span>
+      <div class="pkg-cost">🪙 25,000 koin</div>
+      <div class="pkg-gems">💎 5,000</div>
+      <div class="pkg-bonus">+500 bonus gems!</div>
+      <div class="pkg-rate">Kurs 1:0.20</div>
+    </div>
+
+  </div>
+
+  <!-- CUSTOM -->
+  <div class="section-title">ATAU MASUKKAN CUSTOM</div>
+  <div class="custom-wrap">
+    <div class="custom-label">Masukkan jumlah koin yang ingin ditukar:</div>
+    <div class="custom-row">
+      <input class="custom-input" type="number" id="custom-input" value="100" min="1" step="1" oninput="calcCustom()" />
+      <span class="custom-arrow">→</span>
+      <div class="custom-result"><span id="custom-output">10</span> 💎</div>
+    </div>
+    <div class="custom-note">Kurs dasar: 100 koin = 10 gems &nbsp;|&nbsp; Paket besar lebih hemat</div>
+  </div>
+
+  <button class="btn-exchange" onclick="doExchange()">TUKAR SEKARANG</button>
+
+  <!-- HISTORY -->
+  <div class="section-title">RIWAYAT TRANSAKSI</div>
+  <div class="history-list" id="history-list">
+    <div class="history-empty">Belum ada transaksi</div>
+  </div>
+
+</div>
+
+<!-- SUCCESS POPUP -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-box">
+    <div class="success-icon">💎</div>
+    <div class="success-title">BERHASIL!</div>
+    <div class="success-msg" id="success-msg">Gems berhasil ditambahkan!</div>
+    <button class="success-close" onclick="closeSuccess()">TUTUP</button>
+  </div>
+</div>
+
+<script src="shop.js"></script>
+
+</body>
+</html>
