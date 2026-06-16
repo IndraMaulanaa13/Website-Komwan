@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BASIKAL Gacha — Cyber Hero Cards</title>
+  <meta name="description" content="Collect rare cyberpunk hero cards in BASIKAL Gacha. Pull cards, build your collection, and chase the Mythic!" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Poppins:wght@300;400;600;700&family=Orbitron:wght@600;800;900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="gacha.css" />
+</head>
+<body>
+
+<!-- PARTICLES BACKGROUND -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- AMBIENT FLOATING ORBS -->
+<div class="ambient-orbs">
+  <div class="ambient-orb ao-1"></div>
+  <div class="ambient-orb ao-2"></div>
+  <div class="ambient-orb ao-3"></div>
+  <div class="ambient-orb ao-4"></div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="header">
+  <div class="header-logo">
+    <span class="logo-basikal">BASIKAL</span><span class="logo-gacha">GACHA</span>
+  </div>
+
+  <div class="header-right">
+    <!-- Currency Bar -->
+    <div class="currency-bar">
+      <div class="currency-pill">
+        <span class="c-icon">💎</span>
+        <div class="c-info">
+          <span class="c-label">GEMS</span>
+          <span class="c-val" id="gems-display">0</span>
+        </div>
+      </div>
+      <div class="currency-pill">
+        <span class="c-icon">🪙</span>
+        <div class="c-info">
+          <span class="c-label">KOIN</span>
+          <span class="c-val" id="coins-display">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="profile-btn" onclick="window.location.href='../index.html'" title="Kembali ke Lobby" aria-label="Lobby">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </button>
+
+      <button class="profile-btn" onclick="window.location.href='../shop.html'" title="Shop" aria-label="Shop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+      </button>
+
+      <button class="logout-btn" onclick="logout()" title="Logout" aria-label="Logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+
+      <div class="profile-wrap">
+        <button class="profile-btn" id="profileBtn" aria-label="Profile menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </button>
+
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="dd-user">
+            <span id="dd-username">User</span>
+            <small>Aktif sekarang</small>
+          </div>
+          <div class="dd-item logout" onclick="logout()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Logout
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<main class="gacha-content">
+
+  <!-- ═══════════ FEATURED BANNER ═══════════ -->
+  <section class="featured-banner" id="featured-banner">
+    <div class="banner-glow"></div>
+    <div class="banner-bg-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+
+    <div class="banner-content">
+      <div class="banner-left">
+        <span class="rateup-badge">⚡ RATE-UP ACTIVE</span>
+        <h1 class="banner-title" id="banner-title">OMEGA — THE LUCKY STAR</h1>
+        <p class="banner-subtitle">Rate-up event &middot; Base Mythic <b>1.5%</b>, Premium Pull <b>3%</b></p>
+        <div class="banner-rates-mini">
+          <span class="mini-rate mythic">Base Mythic 1.5%</span>
+          <span class="mini-rate legendary">Legendary 4%</span>
+          <span class="mini-rate epic">Epic 10%</span>
+          <span class="mini-rate rare">Rare 25%</span>
+          <span class="mini-rate common">Common 59.5%</span>
+        </div>
+
+        <div class="quick-pull-panel" aria-label="Quick pull actions">
+          <div class="quick-pull-head">
+            <span>QUICK PULL</span>
+            <small>Aksi utama langsung siap untuk demo</small>
+          </div>
+          <div class="quick-pull-actions">
+            <button class="quick-pull-btn coin" type="button" onclick="pullCards(1)">
+              <span>Koin ×1</span>
+              <b>🪙 50</b>
+            </button>
+            <button class="quick-pull-btn coin featured" type="button" onclick="pullCards(10)">
+              <span>Koin ×10</span>
+              <b>🪙 450</b>
+            </button>
+            <button class="quick-pull-btn premium" type="button" onclick="pullWithGems(1)">
+              <span>Premium ×1</span>
+              <b>💎 5</b>
+            </button>
+            <button class="quick-pull-btn premium featured" type="button" onclick="pullWithGems(10)">
+              <span>Premium ×10</span>
+              <b>💎 45</b>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner-right">
+        <div class="featured-card-showcase">
+          <div class="featured-card-preview" id="featured-card-preview">
+            <img class="card-art" src="assets/omega_lucky.png" alt="OMEGA" />
+            <div class="featured-name">OMEGA</div>
+            <div class="featured-rarity">MYTHIC</div>
+          </div>
+          <!-- Flanking mini cards -->
+          <div class="showcase-flank flank-left">
+            <img src="assets/crimson_overlord.png" alt="Crimson Overlord" />
+          </div>
+          <div class="showcase-flank flank-right">
+            <img src="assets/inferna_empress.png" alt="Inferna Empress" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PLAYER STATS STRIP ═══════════ -->
+  <section class="player-stats-strip">
+    <div class="stat-card stat-pulls">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+          <line x1="12" y1="22.08" x2="12" y2="12"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">TOTAL PULLS</span>
+        <span class="stat-value" id="stat-total-pulls">0</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-collection">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">KOLEKSI</span>
+        <span class="stat-value" id="stat-collection-percent">0%</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-mythic">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">MYTHIC DIMILIKI</span>
+        <span class="stat-value" id="stat-mythic-owned">0 / 3</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-luck">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">LUCK STREAK</span>
+        <span class="stat-value" id="stat-luck-streak">—</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PITY METER ═══════════ -->
+  <section class="pity-section">
+    <div class="pity-head">
+      <span class="pity-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        PITY METER — Guaranteed Mythic at 50
+      </span>
+      <span class="pity-count" id="pity-count">0 / 50</span>
+    </div>
+    <div class="pity-track">
+      <div class="pity-fill" id="pity-fill"></div>
+      <div class="pity-soft-mark" title="Soft pity starts here">40</div>
+      <div class="pity-ticks" aria-hidden="true">
+        <span class="pity-tick" style="left:20%"></span>
+        <span class="pity-tick" style="left:40%"></span>
+        <span class="pity-tick" style="left:60%"></span>
+        <span class="pity-tick" style="left:80%"></span>
+      </div>
+    </div>
+    <div class="pity-note" id="pity-note">Soft pity aktif di pull ke-40+</div>
+  </section>
+
+  <!-- ═══════════ SECTION TITLE: PULL OPTIONS ═══════════ -->
+  <div class="section-title">
+    <span class="section-title-line"></span>
+    <span class="section-title-text">PULL OPTIONS</span>
+    <span class="section-title-sub">Pilih mata uang &amp; jumlah pull</span>
+  </div>
+
+  <!-- ═══════════ PULL BUTTONS ═══════════ -->
+  <section class="pull-section">
+
+    <!-- ── KOIN PULL GROUP ── -->
+    <div class="pull-group pull-group-coins">
+      <div class="pull-group-head">
+        <span class="pg-badge"><span class="pg-icon">🪙</span> KOIN PULL</span>
+        <span class="pg-rate">Mythic 1.5%</span>
+      </div>
+      <div class="pull-group-grid">
+        <button class="pull-btn pull-x1" onclick="pullCards(1)">
+          <div class="pull-btn-glow"></div>
+          <div class="pull-btn-icon">🎴</div>
+          <div class="pull-btn-label">PULL × 1</div>
+          <div class="pull-btn-cost"><span class="cost-icon">🪙</span> 50</div>
+        </button>
+
+        <button class="pull-btn pull-x10" onclick="pullCards(10)">
+          <div class="pull-btn-glow"></div>
+          <span class="pull-best-badge">⭐ HEMAT</span>
+          <div class="pull-btn-icon">🃏</div>
+          <div class="pull-btn-label">PULL × 10</div>
+          <div class="pull-btn-cost"><span class="cost-icon">🪙</span> 450 <span class="cost-discount">−50</span></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── PREMIUM (DIAMOND) PULL GROUP — RATE MYTHIC ×2 ── -->
+    <div class="pull-group pull-group-gems">
+      <div class="pull-group-head">
+        <span class="pg-badge premium"><span class="pg-icon">💎</span> PREMIUM PULL</span>
+        <span class="pg-rate boost">⚡ Mythic 3% &middot; RATE ×2</span>
+      </div>
+      <div class="pull-group-grid">
+        <button class="pull-btn pull-gems pull-gems-x1" onclick="pullWithGems(1)">
+          <div class="pull-btn-glow"></div>
+          <div class="pull-btn-icon">💠</div>
+          <div class="pull-btn-label">PULL × 1</div>
+          <div class="pull-btn-cost"><span class="cost-icon">💎</span> 5</div>
+        </button>
+
+        <button class="pull-btn pull-gems pull-gems-x10" onclick="pullWithGems(10)">
+          <div class="pull-btn-glow"></div>
+          <span class="pull-best-badge premium-badge">💎 BOOSTED</span>
+          <div class="pull-btn-icon">🌟</div>
+          <div class="pull-btn-label">PULL × 10</div>
+          <div class="pull-btn-cost"><span class="cost-icon">💎</span> 45 <span class="cost-discount">−5</span></div>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════ DROP RATES STRIP ═══════════ -->
+  <section class="rates-strip">
+    <div class="rates-title">DROP RATES</div>
+    <div class="rates-list">
+      <div class="rate-chip mythic">    <span class="chip-dot"></span> Mythic <b>1.5%</b></div>
+      <div class="rate-chip legendary"> <span class="chip-dot"></span> Legendary <b>4%</b></div>
+      <div class="rate-chip epic">      <span class="chip-dot"></span> Epic <b>10%</b></div>
+      <div class="rate-chip rare">      <span class="chip-dot"></span> Rare <b>25%</b></div>
+      <div class="rate-chip common">    <span class="chip-dot"></span> Common <b>59.5%</b></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ TABS: KOLEKSI / HISTORY ═══════════ -->
+  <section class="tabs-section">
+    <div class="tabs-header">
+      <button class="tab-btn active" data-tab="collection" onclick="switchTab('collection')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        KOLEKSI <span class="tab-counter" id="collection-counter">0 / 0</span>
+      </button>
+      <button class="tab-btn" data-tab="history" onclick="switchTab('history')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        HISTORY
+      </button>
+    </div>
+
+    <!-- COLLECTION TAB -->
+    <div class="tab-panel active" id="tab-collection">
+      <!-- Collection completion progress -->
+      <div class="collection-progress">
+        <div class="cp-head">
+          <span class="cp-title">PROGRES KOLEKSI</span>
+          <span class="cp-stats" id="cp-stats">0 / 0 kartu</span>
+        </div>
+        <div class="cp-track">
+          <div class="cp-fill" id="cp-fill"></div>
+        </div>
+        <div class="cp-rarity-row" id="cp-rarity-row">
+          <div class="cp-mini r-common"><span class="cp-mini-dot"></span><span class="cp-mini-label">COMMON</span><span class="cp-mini-count" id="cp-c-common">0/0</span></div>
+          <div class="cp-mini r-rare"><span class="cp-mini-dot"></span><span class="cp-mini-label">RARE</span><span class="cp-mini-count" id="cp-c-rare">0/0</span></div>
+          <div class="cp-mini r-epic"><span class="cp-mini-dot"></span><span class="cp-mini-label">EPIC</span><span class="cp-mini-count" id="cp-c-epic">0/0</span></div>
+          <div class="cp-mini r-legendary"><span class="cp-mini-dot"></span><span class="cp-mini-label">LEGENDARY</span><span class="cp-mini-count" id="cp-c-legendary">0/0</span></div>
+          <div class="cp-mini r-mythic"><span class="cp-mini-dot"></span><span class="cp-mini-label">MYTHIC</span><span class="cp-mini-count" id="cp-c-mythic">0/0</span></div>
+        </div>
+      </div>
+
+      <!-- Toolbar: search + sort + filters -->
+      <div class="collection-toolbar">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="collection-search" placeholder="Cari kartu..." autocomplete="off" />
+          <button class="search-clear" id="search-clear" type="button" aria-label="Clear search">×</button>
+        </div>
+
+        <div class="toolbar-controls">
+          <label class="sort-wrap">
+            <span class="sort-label">SORT</span>
+            <select id="collection-sort" class="sort-select">
+              <option value="rarity-desc">Rarity ↓</option>
+              <option value="rarity-asc">Rarity ↑</option>
+              <option value="name-asc">Nama A-Z</option>
+              <option value="name-desc">Nama Z-A</option>
+              <option value="owned-first">Yang Dimiliki Dulu</option>
+              <option value="locked-first">Yang Belum Dulu</option>
+            </select>
+          </label>
+
+          <label class="hide-locked-wrap">
+            <input type="checkbox" id="hide-locked" />
+            <span>Hanya yang dimiliki</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="collection-filters">
+        <button class="filter-btn active" data-filter="all"       onclick="filterCollection('all')">ALL</button>
+        <button class="filter-btn rarity-mythic"    data-filter="mythic"    onclick="filterCollection('mythic')">MYTHIC</button>
+        <button class="filter-btn rarity-legendary" data-filter="legendary" onclick="filterCollection('legendary')">LEGENDARY</button>
+        <button class="filter-btn rarity-epic"      data-filter="epic"      onclick="filterCollection('epic')">EPIC</button>
+        <button class="filter-btn rarity-rare"      data-filter="rare"      onclick="filterCollection('rare')">RARE</button>
+        <button class="filter-btn rarity-common"    data-filter="common"    onclick="filterCollection('common')">COMMON</button>
+      </div>
+      <div class="collection-grid" id="collection-grid"></div>
+      <div class="collection-empty" id="collection-empty" hidden>
+        <div class="ce-icon">🔍</div>
+        <div class="ce-text">Tidak ada kartu yang cocok dengan filter saat ini.</div>
+      </div>
+    </div>
+
+    <!-- HISTORY TAB -->
+    <div class="tab-panel" id="tab-history">
+      <div class="history-list" id="history-list">
+        <div class="history-empty">Belum ada pull. Tarik kartu pertamamu! 🃏</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="gacha-footer">
+    <p>BASIKAL GACHA &copy; 2026 — Neon Cyber Casino Collection</p>
+    <p class="footer-sub">Rates are transparent: base Mythic 1.5%, Premium Mythic 3%, guaranteed Mythic within 50 pulls.</p>
+  </footer>
+
+</main>
+
+<!-- ═══════════════ REVEAL OVERLAY ═══════════════ -->
+<div class="reveal-overlay" id="reveal-overlay">
+  <!-- Flash beam intro -->
+  <div class="reveal-flash" id="reveal-flash"></div>
+
+  <!-- Mythic-only background layers -->
+  <div class="mythic-fx" id="mythic-fx">
+    <div class="mythic-crack" id="mythic-crack"></div>
+    <div class="mythic-vortex"></div>
+    <div class="mythic-pillar"></div>
+    <div class="mythic-rainbow-burst"></div>
+    <canvas class="mythic-particles" id="mythic-particles"></canvas>
+  </div>
+
+  <!-- Cards container (single or 10-pull row) -->
+  <div class="reveal-cards" id="reveal-cards"></div>
+
+  <!-- Confetti canvas (mythic & legendary) -->
+  <canvas class="confetti-canvas" id="confetti-canvas"></canvas>
+
+  <button class="reveal-skip" id="reveal-skip" onclick="skipReveal()">SKIP ⏩</button>
+  <button class="reveal-continue" id="reveal-continue" onclick="closeReveal()">TAP TO CONTINUE</button>
+</div>
+
+<!-- ═══════════════ CARD DETAIL MODAL ═══════════════ -->
+<div class="card-modal" id="card-modal" onclick="closeCardModal(event)">
+  <div class="card-modal-inner" id="card-modal-inner"></div>
+</div>
+
+<!-- ═══════════════ SCRIPT ═══════════════ -->
+<script src="gacha.js"></script>
+</body>
+</html>
