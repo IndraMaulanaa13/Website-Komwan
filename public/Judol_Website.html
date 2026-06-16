@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lucky Slot BASIKAL GAMING dengan spin server-side, jackpot, reward, dan efek casino cyber.">
+  <meta property="og:title" content="Lucky Slot BASIKAL GAMING">
+  <meta property="og:description" content="Main Lucky Slot di BASIKAL GAMING dengan peluang jackpot dan reward yang dihitung server.">
+  <title>Lucky Slot — Casino</title>
+  <link rel="stylesheet" href="judol.css" />
+</head>
+<body>
+
+<!-- PARTICLES BACKGROUND -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- FIREWORKS CANVAS -->
+<canvas id="fireworks-canvas"></canvas>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="header">
+  <div class="header-logo">
+    <span class="logo-lucky">LUCKY</span><span class="logo-slot">SLOT</span>
+  </div>
+  <div class="header-stats">
+    <div class="stat-box">
+      <div class="stat-label">High Score</div>
+      <div class="stat-val" id="high-score">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Total Spin</div>
+      <div class="stat-val" id="spin-count">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Multiplier</div>
+      <div class="stat-val" id="mult-display">x1</div>
+    </div>
+  </div>
+
+
+<div class="header-actions">
+
+  <!-- LOBBY BUTTON -->
+  <button class="profile-btn" id="lobbyBtn"
+    onclick="window.location.href='index.html'"
+    aria-label="Lobby Utama"
+    title="Kembali ke Lobby Utama">
+
+    <svg viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5">
+
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+
+    </svg>
+  </button>
+
+  <!-- SHOP BUTTON -->
+  <button class="profile-btn" id="shopBtn"
+    onclick="window.location.href='shop.html'"
+    aria-label="Shop">
+
+    <svg viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5">
+
+      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <path d="M16 10a4 4 0 01-8 0"/>
+
+    </svg>
+  </button>
+
+  <!-- LOGOUT BUTTON -->
+  <button class="logout-btn"
+    onclick="logout()"
+    aria-label="Logout"
+    title="Logout">
+
+    <svg viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5">
+
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+
+    </svg>
+
+  </button>
+
+  <!-- PROFILE -->
+  <div class="profile-wrap">
+
+    <button class="profile-btn"
+      id="profileBtn"
+      aria-label="Profile menu">
+
+      <svg viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+
+      </svg>
+
+    </button>
+
+    <div class="profile-dropdown" id="profileDropdown">
+
+      <div class="dd-user">
+        <span id="dd-username">User</span>
+        <small>Aktif sekarang</small>
+      </div>
+
+      <div class="dd-item logout" onclick="logout()">
+
+        <svg viewBox="0 0 24 24">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+
+        Logout
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</header>
+
+<!-- ═══════════════ CURRENCY BAR ═══════════════ -->
+<div class="currency-bar">
+  <div class="currency-pill">
+    <span class="c-icon">💎</span>
+    <span>GEMS</span>
+    <span class="c-val" id="gems">500</span>
+  </div>
+  <div class="currency-pill">
+    <span class="c-icon">🪙</span>
+    <span>KOIN</span>
+    <span class="c-val" id="coins">1,000</span>
+  </div>
+  <div class="currency-pill">
+    <span class="c-icon">🍎</span>
+    <span>POIN BUAH</span>
+    <span class="c-val" id="fruit-pts">0</span>
+    <span style="font-size:10px;color:rgba(255,215,0,0.4);margin-left:4px">/ 50</span>
+  </div>
+</div>
+
+<!-- ═══════════════ MAIN LAYOUT ═══════════════ -->
+<div class="main-layout">
+
+  <!-- ── LEFT PANEL ── -->
+  <div class="left-panel">
+    <div class="jackpot-meter jk-grand pulse">
+      <div class="jk-label">GRAND</div>
+      <div class="jk-val" id="jk-grand">135,000</div>
+    </div>
+    <div class="jackpot-meter jk-major">
+      <div class="jk-label">MAJOR</div>
+      <div class="jk-val" id="jk-major">12,500</div>
+    </div>
+    <div class="jackpot-meter jk-minor">
+      <div class="jk-label">MINOR</div>
+      <div class="jk-val" id="jk-minor">2,750</div>
+    </div>
+    <div class="jackpot-meter jk-mini">
+      <div class="jk-label">MINI</div>
+      <div class="jk-val" id="jk-mini">750</div>
+    </div>
+    <div class="jackpot-meter jk-mini" style="margin-top:4px">
+      <div class="jk-label">GEMS JACKPOT</div>
+      <div class="jk-val" style="color:#7ab4ff;font-size:13px" id="jk-gems">100</div>
+    </div>
+  </div>
+
+  <!-- ── MACHINE ── -->
+  <div class="machine-wrap">
+
+    <!-- WIN BANNER -->
+    <div class="win-banner" id="win-banner">&nbsp;</div>
+
+    <!-- REELS FRAME -->
+    <div class="reels-frame" id="reels-frame">
+      <div class="multiplier-badge" id="mult-badge">5x</div>
+      <div class="highlight-line"></div>
+      <div class="reels" id="reels">
+        <div class="reel"><div class="reel-inner" id="inner-0"></div></div>
+        <div class="reel"><div class="reel-inner" id="inner-1"></div></div>
+        <div class="reel"><div class="reel-inner" id="inner-2"></div></div>
+        <div class="reel"><div class="reel-inner" id="inner-3"></div></div>
+        <div class="reel"><div class="reel-inner" id="inner-4"></div></div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+
+      <!-- BET -->
+      <div class="bet-row">
+        <div class="bet-label">BET</div>
+        <div class="bet-opts" id="bet-opts">
+          <button class="bet-btn active" data-val="20">20</button>
+          <button class="bet-btn"        data-val="50">50</button>
+          <button class="bet-btn"        data-val="100">100</button>
+          <button class="bet-btn"        data-val="200">200</button>
+        </div>
+      </div>
+
+      <!-- SPIN BUTTONS -->
+      <div class="spin-row">
+        <button class="btn-max"  id="btn-max"  onclick="setMaxBet()">MAX BET</button>
+        <button class="btn-spin" id="btn-spin" onclick="doSpin()">SPIN</button>
+        <button class="btn-auto" id="btn-auto" onclick="toggleAuto()">AUTO</button>
+      </div>
+
+      <!-- PITY -->
+      <div class="pity-wrap">
+        <div class="pity-head">
+          <span>PITY METER — Guaranteed Jackpot</span>
+          <span class="pity-count" id="pity-txt">0 / 50</span>
+        </div>
+        <div class="pity-track">
+          <div class="pity-fill" id="pity-fill"></div>
+        </div>
+      </div>
+
+    </div><!-- /controls -->
+  </div><!-- /machine-wrap -->
+
+  <!-- ── RIGHT PANEL ── -->
+  <div class="right-panel">
+
+    <!-- DROP RATES -->
+    <div class="rates-box">
+      <div class="rates-title">Drop Rates</div>
+      <div id="rates-list"></div>
+    </div>
+
+    <!-- BONUS BUY -->
+    <div class="bonus-buy-box">
+      <div class="bb-title">Bonus Buy</div>
+      <button class="btn-bonus" onclick="buyBonus('pity')">Reset Pity<br>−50 Gems</button>
+      <button class="btn-bonus" onclick="buyBonus('mult')">Mult x3<br>−80 Gems</button>
+      <button class="btn-bonus" onclick="buyBonus('fruit')">Tukar Buah<br>+Gems</button>
+    </div>
+
+  </div><!-- /right-panel -->
+</div><!-- /main-layout -->
+
+<!-- ═══════════════ INVENTORY ═══════════════ -->
+<div class="inv-strip">
+  <div class="inv-title">Inventori Buah</div>
+  <div class="inv-grid" id="inv-grid">
+    <div class="inv-item inv-empty">Belum ada item</div>
+  </div>
+</div>
+
+<!-- ═══════════════ SCRIPT ═══════════════ -->
+<script src="judol.js"></script>
+
+</body>
+
+<script>
+if (!localStorage.getItem("currentUser")) {
+  window.location.href = "login.html";
+}
+</script>
+</html>
