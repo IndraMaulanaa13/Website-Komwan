@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Login dan register akun BASIKAL GAMING untuk menyimpan saldo, reward, dan progres game.">
+  <meta property="og:title" content="BASIKAL GAMING Login">
+  <meta property="og:description" content="Masuk ke akun BASIKAL GAMING untuk bermain Lucky Slot, Gacha Kartu, dan Card Battle.">
+  <title>LUCKYPORTAL — Login</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color-start: #120006;
+      --bg-color-end: #080003;
+      --gold-neon: #FFD700;
+      --gold-glow: rgba(255, 215, 0, 0.4);
+      --cyber-crimson: #D81B3A;
+      --crimson-glow: rgba(216, 27, 58, 0.4);
+      --glass-bg: rgba(29, 0, 10, 0.65);
+      --font-family: 'Outfit', 'Poppins', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, var(--bg-color-start) 0%, var(--bg-color-end) 100%);
+      font-family: var(--font-family);
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background Canvas Particles */
+    #particles-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Login Form Container */
+    .box {
+      position: relative;
+      z-index: 10;
+      width: 360px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      padding: 40px 30px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 
+                  0 0 30px rgba(216, 27, 58, 0.15), 
+                  inset 0 0 15px rgba(255, 255, 255, 0.02);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .box:hover {
+      border-color: rgba(255, 215, 0, 0.35);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 
+                  0 0 40px rgba(255, 215, 0, 0.15),
+                  0 0 35px rgba(216, 27, 58, 0.15);
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      margin-bottom: 25px;
+      color: #fff;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    h1 span {
+      color: var(--gold-neon);
+      text-shadow: 0 0 15px var(--gold-glow);
+    }
+
+    /* Form Fields */
+    .input-wrap {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      background: rgba(18, 0, 6, 0.7);
+      color: white;
+      font-size: 14px;
+      font-family: var(--font-family);
+      outline: none;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    input:focus {
+      border-color: var(--gold-neon);
+      background: rgba(18, 0, 6, 0.9);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      font-family: var(--font-family);
+      transition: all 0.25s ease;
+    }
+
+    button.btn-login {
+      background: linear-gradient(135deg, var(--cyber-crimson), #ff2d4e);
+      color: white;
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      box-shadow: 0 0 15px rgba(216, 27, 58, 0.35);
+    }
+
+    button.btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(216, 27, 58, 0.6);
+      border-color: var(--gold-neon);
+    }
+
+    button.btn-register {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    button.btn-register:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Particles Canvas -->
+  <canvas id="particles-canvas"></canvas>
+
+  <div class="box">
+    <h1>LUCKY<span>PORTAL</span></h1>
+
+    <form id="auth-form" autocomplete="on">
+      <div class="input-wrap">
+        <input type="text" id="username" name="username" placeholder="Username" autocomplete="username" autocapitalize="none" spellcheck="false">
+      </div>
+
+      <div class="input-wrap">
+        <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-login" type="submit">LOGIN</button>
+        <button class="btn-register" type="button" onclick="register()">REGISTER</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const authForm = document.getElementById("auth-form");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+
+    authForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      login();
+    });
+
+    function clearBadAutofill() {
+      const value = usernameInput.value.trim();
+      if (/^https?:\/\//i.test(value) || value === window.location.origin) {
+        usernameInput.value = "";
+        passwordInput.value = "";
+      }
+    }
+
+    clearBadAutofill();
+    setTimeout(clearBadAutofill, 100);
+    setTimeout(clearBadAutofill, 500);
+
+    function saveSessionUser(user, token) {
+      const users = JSON.parse(localStorage.getItem("users")) || {};
+      users[user.username] = {
+        ...users[user.username],
+        ...user,
+      };
+      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("currentUser", user.username);
+      if (token) localStorage.setItem("authToken", token);
+    }
+
+    function redirectAfterAuth(user) {
+      window.location.href = user && user.isAdmin ? "admin.html" : "index.html";
+    }
+
+    async function apiPost(path, body) {
+      const response = await fetch(path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Terjadi kesalahan server");
+      }
+      return data;
+    }
+
+    async function register() {
+      clearBadAutofill();
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!username || !password) {
+        alert("ISI SEMUA DATA!");
+        return;
+      }
+
+      try {
+        const data = await apiPost("/api/register", { username, password });
+        saveSessionUser(data.user, data.token);
+        alert("REGISTER BERHASIL!");
+        redirectAfterAuth(data.user);
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    async function login() {
+      clearBadAutofill();
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      try {
+        const data = await apiPost("/api/login", { username, password });
+        saveSessionUser(data.user, data.token);
+        redirectAfterAuth(data.user);
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    // Floating Canvas Particles logic for Login Screen
+    (function initParticles() {
+      const canvas = document.getElementById("particles-canvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      let particles = [];
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      const COLORS = ["#FFD700", "#D81B3A", "#ff4d6d", "#ffa200"];
+
+      for (let i = 0; i < 40; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: -Math.random() * 0.3 - 0.1,
+          alpha: Math.random() * 0.4 + 0.1,
+          size: Math.random() * 2.2 + 0.6,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)]
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.y < 0) {
+            p.y = canvas.height;
+            p.x = Math.random() * canvas.width;
+            p.alpha = Math.random() * 0.4 + 0.1;
+          }
+          if (p.x < 0) p.x = canvas.width;
+          else if (p.x > canvas.width) p.x = 0;
+
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.globalAlpha = 1.0;
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>
